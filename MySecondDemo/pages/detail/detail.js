@@ -11,6 +11,7 @@ import HtmlFormater from '../../lib/htmlFormater';
 let app = getApp();
 Page({
   data: {
+    scrollTop: 0,
     detailData: {}
   },
   onLoad(option) {
@@ -19,9 +20,27 @@ Page({
      * 我们从 `option` 中解析出文章参数 `contendId`，然后通过调用 `util` 中封装好的 `request` 函数来获取 `mock` 数据。
      */
     let id = option.contentId || 0;
+    this.setData({
+      isFromShare: !!option.share  //!!就是将所有其他类型都转换成boolean型
+    })
     this.init(id);
   },
+  back() {
+    if (this.data.isFromShare) {
+      wx.navigateTo({
+        url: '../index/index',
+      })
+    } else {
+      wx.navigateBack();
+    }
+  },
+  goTop() {
+    this.setData({
+      scrollTop: 0
+    })
+  },
   init(contentId) {
+    this.goTop();
     if (contentId) {
       this.requestDetail(contentId).then((data) => {
         this.configPageData(data);
@@ -72,6 +91,66 @@ Page({
       month = timeStr.slice(5, 7),
       day = timeStr.slice(8, 10);
     return `${year}/${month}/${day}`;
+  },
+  next() {
+    this.requestNextContentId().then(data => {
+      let contentId = data && data.contentId || 0;
+      this.init(contentId);
+    })
+  },
+  requestNextContentId() {
+    let pubDate = this.data.detailData && this.data.detailData.lastUpdateTime || '';
+    let contentId = this.data.detailData && this.data.detailData.contentId || 0;
+    return util.request({
+      url: 'detail',
+      mock: true,
+      data: {
+        tag: '微信热门',
+        pubDate: pubDate,
+        contentId: contentId,
+        lang: config.appLang || 'en'
+      }
+    }).then(res => {
+      if (res && res.status === 200 && res.data && res.data.contentId) {
+        util.log(res);
+        return res.data;
+      } else {
+        util.alert('提示', '没有更多文章了');
+        return null;
+      }
+    })
+  },
+  notSupportShare() {
+    // deviceInfo 是用户的设备信息，我们在 app.js 中已经获取并保存在 globalData 中
+    let device = app.globalData.deviceInfo;
+    let sdkVersion = device && device.SDKVersion || '1.0.0';
+    return /1\.0\.0|1\.0\.1|1\.1\.0|1\.1\.1/.test(sdkVersion);
+  },
+  share() {
+    if (this.notSupportShare) {
+      wx.showModal({
+        title: '提示',
+        content: '您的微信版本较低，请点击右上角分享',
+      })
+    }
+  },
+  onShareAppMessage() {
+    let title = this.data.detailData && this.data.detailData.title || config.defaultShareText;
+    let contentId = this.data.detailData && this.data.detailData.contentId || 0;
+    return {
+      // 分享出去的内容标题
+      title: title,
+
+      // 用户点击分享出去的内容，跳转的地址
+      // contentId为文章id参数；share参数作用是说明用户是从分享出去的地址进来的，我们后面会用到
+      path: `/pages/detail/detail?share=1&contentId=${contentId}`,
+
+      // 分享成功
+      success: function (res) { },
+
+      // 分享失败
+      fail: function (res) { }
+    }
   }
 
 });
