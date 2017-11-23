@@ -1,0 +1,8 @@
+<view class='container'>
+  <view class='rows {{rowGroupClasses[index%3]}}' wx:for="{{dataSource}}" wx:for-item="row">
+      <view class='cols {{colGroupClasses[index%3]}}' wx:for="{{row}}" wx:for-item="col">
+      {{col}}
+    </view>  
+  
+  </view>
+</view>

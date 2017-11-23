@@ -1,0 +1,11 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "#09ba07",
+    "navigationBarBackgroundColor": "#2EBF76",
+    "navigationBarTitleText": "数独游戏",
+    "navigationBarTextStyle": "#fff"
+  }
+}

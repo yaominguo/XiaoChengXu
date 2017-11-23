@@ -1,0 +1,14 @@
+
+.rows{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.cols{
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #000;
+}
