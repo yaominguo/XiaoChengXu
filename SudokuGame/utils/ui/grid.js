@@ -1,12 +1,11 @@
 import Sudoku from '../core/sudoku.js';
 
-let grid={
-  build(){
-    const matrix=Sudoku.make();
+let grid = {
+  build() {
+    Sudoku.make();
+    const matrix = Sudoku.make().puzzleMatrix;
+    console.log(matrix);
     return matrix;
-  },
-  layout(){
-
   }
 };
 export default grid;

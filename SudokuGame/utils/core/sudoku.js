@@ -1,15 +1,17 @@
 import Generator from './generator.js';
 
-let sudoku={
-  
-  make(level=5){
-    this.puzzleMatrix=Generator.matrix.map((row)=>{
-      return row.map((cell)=>{
-        return Math.random()*9<level?0:cell;
+let sudoku = {
+  solutionMatrix(){
+    Generator.generate();
+    return Generator.internalGenerate().solutionMatrix;
+  },
+  make(level = 5) {
+    console.log('sudoku', sudoku.solutionMatrix());
+    this.puzzleMatrix = sudoku.solutionMatrix().map((row) => {
+      return row.map((cell) => {
+        return Math.random() * 9 < level ? 0 : cell;
       })
     })
-    console.log(this.puzzleMatrix);
-    return this.puzzleMatrix;
   }
 }
 
