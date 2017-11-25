@@ -1,18 +1,22 @@
 import Toolkit from './toolkit.js';
 
 let generator = {
+  matrix: [],
+  orders:[],
   generate() {
     while (!this.internalGenerate()) {
-      // console.log('try again');
+      console.log('try again');
     }
+    
   },
   internalGenerate() {
+    let self=this;
     this.matrix = Toolkit.matrixToolkit.makeMatrix();
     this.orders = Toolkit.matrixToolkit.makeMatrix()
       .map(row => row.map((v, i) => i))
       .map(row => Toolkit.matrixToolkit.shuffle(row));
     for (let n = 1; n <= 9; n++) {
-      if (!this.fillNumber(n)) {
+      if (!self.fillNumber(n)) {
         return false;
       }
     }
@@ -22,6 +26,7 @@ let generator = {
     return this.fillRow(n, 0);
   },
   fillRow(n, rowIndex) {
+    let self=this;
     if (rowIndex > 8) {
       return true;
     }
@@ -33,13 +38,13 @@ let generator = {
         continue;
       }
 
-      if (!Toolkit.matrixToolkit.checkFillable(this.matrix, n, rowIndex, colIndex)) {
+      if (!Toolkit.matrixToolkit.checkFillable(self.matrix, n, rowIndex, colIndex)) {
         continue;
       }
 
       row[colIndex] = n;
 
-      if (!this.fillRow(n, rowIndex + 1)) {
+      if (!self.fillRow(n, rowIndex + 1)) {
         row[colIndex] = 0;
         continue;
       }

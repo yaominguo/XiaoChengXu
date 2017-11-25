@@ -1,4 +1,5 @@
 import Grid from '../../utils/ui/grid.js'
+import Toolkit from '../../utils/core/toolkit.js'
 //获取应用实例
 let app = getApp()
 
@@ -9,9 +10,10 @@ let handler = {
     colGroupClasses: ['col_g_left', 'col_g_center', 'col_g_right']
   },
   onLoad() {
-    console.log('onload');
     let matrix = Grid.build();
-    conosle.log(matrix);
+    // let matrix = Toolkit.matrixToolkit.makeMatrix().map(row => row.map((v, i) => i))
+    //   .map(row => Toolkit.matrixToolkit.shuffle(row));
+    console.log(matrix);
     this.setData({
       dataSource: matrix
     })
