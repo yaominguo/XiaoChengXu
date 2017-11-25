@@ -1,8 +1,12 @@
 <view class='container'>
   <view class='rows {{rowGroupClasses[index%3]}}' wx:key="rows{{index}}" wx:for="{{dataSource}}" wx:for-item="row">
-    <view class='cols {{colGroupClasses[index%3]}}' wx:key="cols{{index}}" wx:for="{{row}}" wx:for-item="col">
+    <view class='cols {{colGroupClasses[index%3]}} {{col==0?"empty":"fixed"}}' wx:key="cols{{index}}" wx:for="{{row}}" wx:for-item="col">
       {{col}}
     </view>
-
+  </view>
+  <view class='dashboard'>
+    <button class='check'>检查</button>
+      <button class='reset'>重置</button>
+      <button class='rebuild'>重新开始</button>
   </view>
 </view>

@@ -1,3 +1,6 @@
+.container{
+  padding: 100rpx 0;
+}
 .rows {
   display: flex;
   flex-direction: row;
@@ -5,8 +8,8 @@
 }
 
 .cols {
-  width: 30px;
-  height: 30px;
+  width: 75rpx;
+  height: 75rpx;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,4 +38,25 @@
 
 .col_g_center, .col_g_right {
   border-left: 1px solid #000;
+}
+
+.empty{
+  color:#fff;
+}
+.fixed{
+  background-color: #eee;
+}
+.dashboard{
+  margin-top: 100rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.dashboard button{
+  background-color: #2EBF76;
+  color: #fff;
+  font-size: 35rpx;
+}
+.dashboard button+button{
+  margin-left: 60rpx;
 }
