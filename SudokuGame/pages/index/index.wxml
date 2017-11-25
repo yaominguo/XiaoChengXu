@@ -9,4 +9,18 @@
       <button class='reset'>重置</button>
       <button class='rebuild'>重新开始</button>
   </view>
+  <view class='popupNumbers'>
+    <view class='row'>
+      <text>1</text><text>2</text><text>3</text>
+    </view>
+    <view class='row'>
+      <text>4</text><text>5</text><text>6</text>
+    </view>
+    <view class='row'>
+      <text>7</text><text>8</text><text>9</text>
+    </view>
+    <view class='row'>
+      <text class='mark1'></text><text class='empty'></text><text class='mark2'></text>
+    </view>
+  </view>
 </view>

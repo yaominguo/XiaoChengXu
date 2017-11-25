@@ -46,6 +46,12 @@
 .fixed{
   background-color: #eee;
 }
+.mark1{
+  background-color:lightgreen; 
+}
+.mark2{
+  background-color: lightcoral;
+}
 .dashboard{
   margin-top: 100rpx;
   display: flex;
@@ -59,4 +65,15 @@
 }
 .dashboard button+button{
   margin-left: 60rpx;
+}
+.popupNumbers{
+  border: 1px solid #000;
+}
+.popupNumbers text{
+  width: 75rpx;
+  height: 75rpx;
+  display: inline-block;
+  text-align: center;
+  line-height: 75rpx;
+  border: 1px solid #000;
 }
