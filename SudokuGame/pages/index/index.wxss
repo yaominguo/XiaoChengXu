@@ -42,15 +42,18 @@
 
 .empty{
   color:#fff;
+  background-color: #fff;
 }
 .fixed{
   background-color: #eee;
 }
 .mark1{
   background-color:lightgreen; 
+  color: lightgreen;
 }
 .mark2{
   background-color: lightcoral;
+  color: lightcoral;
 }
 .dashboard{
   margin-top: 100rpx;
@@ -67,7 +70,18 @@
   margin-left: 60rpx;
 }
 .popupNumbers{
+  position: absolute;
   border: 1px solid #000;
+  z-index: 10000;
+  background: #fff;
+  margin-top: 30rpx;
+  margin-left: 30rpx;
+}
+.popupNumbers.show{
+  display: block;
+}
+.popupNumbers.hide{
+  display: none;
 }
 .popupNumbers text{
   width: 75rpx;

@@ -1,6 +1,6 @@
 <view class='container'>
   <view class='rows {{rowGroupClasses[index%3]}}' wx:key="rows{{index}}" wx:for="{{dataSource}}" wx:for-item="row">
-    <view class='cols {{colGroupClasses[index%3]}} {{col==0?"empty":"fixed"}}' wx:key="cols{{index}}" wx:for="{{row}}" wx:for-item="col">
+    <view class='cols {{colGroupClasses[index%3]}} {{col==0?"empty":"fixed"}}' wx:key="cols{{index}}" wx:for="{{row}}" wx:for-item="col" bindtap='{{col==0?"bindPopup":null}}'>
       {{col}}
     </view>
   </view>
@@ -9,7 +9,7 @@
       <button class='reset'>重置</button>
       <button class='rebuild'>重新开始</button>
   </view>
-  <view class='popupNumbers'>
+  <view class='popupNumbers {{showPopupNumber?"show":"hide"}}' style='left:{{left}};top:{{top}}' bindtap='selectNumber'>
     <view class='row'>
       <text>1</text><text>2</text><text>3</text>
     </view>
@@ -20,7 +20,7 @@
       <text>7</text><text>8</text><text>9</text>
     </view>
     <view class='row'>
-      <text class='mark1'></text><text class='empty'></text><text class='mark2'></text>
+      <text class='mark1' id='mark1'>0</text><text class='empty' id='empty'>0</text><text class='mark2' id='mark2'>0</text>
     </view>
   </view>
 </view>

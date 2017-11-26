@@ -5,6 +5,9 @@ let app = getApp()
 
 let handler = {
   data: {
+    left:0,
+    top:0,
+    showPopupNumber:false,
     dataSource: '',
     rowGroupClasses: ['row_g_top', 'row_g_middle', 'row_g_bottom'],
     colGroupClasses: ['col_g_left', 'col_g_center', 'col_g_right']
@@ -17,6 +20,20 @@ let handler = {
     this.setData({
       dataSource: matrix
     })
+  },
+  bindPopup(e){
+    console.log(e);
+    let left=e.target.offsetLeft,top=e.target.offsetTop;
+    this.setData({
+      top:top+'px',
+      left:left+'px',
+      showPopupNumber:true
+    })
+  },
+  selectNumber(e){
+    console.log(e.currentTarget.dataset);
+    let id=e.target.id;
+    console.log(id);
   }
 }
 
