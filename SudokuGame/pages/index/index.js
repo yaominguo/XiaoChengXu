@@ -23,15 +23,21 @@ let handler = {
   },
   bindPopup(e){
     console.log(e);
-    let left=e.target.offsetLeft,top=e.target.offsetTop;
+    let data="dataSource["+0+"]["+0+"]";
     this.setData({
-      top:top+'px',
-      left:left+'px',
-      showPopupNumber:true
+      [data]:6
     })
+    // console.log(e);
+    // e.target.dataset.item='6';
+    // let left=e.target.offsetLeft,top=e.target.offsetTop;
+    // this.setData({
+    //   top:top+'px',
+    //   left:left+'px',
+    //   showPopupNumber:true
+    // })
   },
   selectNumber(e){
-    console.log(e.currentTarget.dataset);
+    console.log(e);
     let id=e.target.id;
     console.log(id);
   }

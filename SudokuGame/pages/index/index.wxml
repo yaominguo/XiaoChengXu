@@ -1,7 +1,7 @@
 <view class='container'>
   <view class='rows {{rowGroupClasses[index%3]}}' wx:key="rows{{index}}" wx:for="{{dataSource}}" wx:for-item="row">
     <view class='cols {{colGroupClasses[index%3]}} {{col==0?"empty":"fixed"}}' wx:key="cols{{index}}" wx:for="{{row}}" wx:for-item="col" bindtap='{{col==0?"bindPopup":null}}'>
-      {{col}}
+      <text>{{col}}</text>
     </view>
   </view>
   <view class='dashboard'>
