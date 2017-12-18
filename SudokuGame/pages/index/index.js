@@ -14,9 +14,10 @@ let handler = {
     colGroupClasses: ['col_g_left', 'col_g_center', 'col_g_right']
   },
   onLoad() {
+    this.buildGame();
+  },
+  buildGame() {
     let matrix = Grid.build();
-    // let matrix = Toolkit.matrixToolkit.makeMatrix().map(row => row.map((v, i) => i))
-    //   .map(row => Toolkit.matrixToolkit.shuffle(row));
     console.log(matrix);
     this.setData({
       dataSource: matrix,
@@ -41,9 +42,17 @@ let handler = {
     let data = this.data.dataSource;
     data[this.data.rowIndex][this.data.colIndex] = number;
     this.setData({
-      dataSource:data,
-      showPopupNumber:false
+      dataSource: data,
+      showPopupNumber: false
     })
+  },
+  reset() {
+    this.setData({
+      dataSource: this.data.modelDataSource
+    })
+  },
+  rebuild() {
+    this.buildGame();
   }
 }
 

@@ -6,9 +6,9 @@
     </view>
   </view>
   <view class='dashboard'>
-    <button class='check'>检查</button>
-    <button class='reset'>重置</button>
-    <button class='rebuild'>重新开始</button>
+    <button class='check' bindtap='check'>检查</button>
+    <button class='reset' bindtap='reset'>重置</button>
+    <button class='rebuild' bindtap='rebuild'>重新开始</button>
   </view>
   <view class='popupNumbers {{showPopupNumber?"show":"hide"}}' style='left:{{left}};top:{{top}}' bindtap='selectNumber'>
     <view class='row'>

@@ -14,7 +14,6 @@ let sudoku = {
       })
     })
     return this.puzzleMatrix;
-    // return this.solutionMatrix();
   }
 }
 
