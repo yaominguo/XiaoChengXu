@@ -37,11 +37,13 @@ let handler = {
     })
   },
   selectNumber(e) {
-    console.log(e);
-    let id = e.target.id;
-    console.log(id);
+    let number = e.target.dataset.number;
     let data = this.data.dataSource;
-    data[this.data.rowIndex][this.data.colIndex] = 11;
+    data[this.data.rowIndex][this.data.colIndex] = number;
+    this.setData({
+      dataSource:data,
+      showPopupNumber:false
+    })
   }
 }
 

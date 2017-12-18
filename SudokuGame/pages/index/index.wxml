@@ -12,23 +12,23 @@
   </view>
   <view class='popupNumbers {{showPopupNumber?"show":"hide"}}' style='left:{{left}};top:{{top}}' bindtap='selectNumber'>
     <view class='row'>
-      <text>1</text>
-      <text>2</text>
-      <text>3</text>
+      <text data-number="{{1}}">1</text>
+      <text data-number="{{2}}">2</text>
+      <text data-number="{{3}}">3</text>
     </view>
     <view class='row'>
-      <text>4</text>
-      <text>5</text>
-      <text>6</text>
+      <text data-number="{{4}}">4</text>
+      <text data-number="{{5}}">5</text>
+      <text data-number="{{6}}">6</text>
     </view>
     <view class='row'>
-      <text>7</text>
-      <text>8</text>
-      <text>9</text>
+      <text data-number="{{7}}">7</text>
+      <text data-number="{{8}}">8</text>
+      <text data-number="{{9}}">9</text>
     </view>
     <view class='row'>
       <text class='mark1' id='mark1'>0</text>
-      <text class='empty' id='empty'>0</text>
+      <text class='empty white' id='empty' data-number="{{0}}">0</text>
       <text class='mark2' id='mark2'>0</text>
     </view>
   </view>
