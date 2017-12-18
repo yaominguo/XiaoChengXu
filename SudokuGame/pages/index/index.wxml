@@ -1,26 +1,35 @@
 <view class='container'>
-  <view class='rows {{rowGroupClasses[index%3]}}' wx:key="rows{{index}}" wx:for="{{dataSource}}" wx:for-item="row">
-    <view class='cols {{colGroupClasses[index%3]}} {{col==0?"empty":"fixed"}}' wx:key="cols{{index}}" wx:for="{{row}}" wx:for-item="col" bindtap='{{col==0?"bindPopup":null}}'>
+  <view class='rows {{rowGroupClasses[rowIndex%3]}}' wx:for-index="rowIndex" wx:key="rows{{rowIndex}}" wx:for="{{dataSource}}" wx:for-item="row">
+    <view class='cols {{colGroupClasses[colIndex%3]}} {{modelDataSource[rowIndex][colIndex]==0?"empty":"fixed"}} {{col==0?"white":"black"}}' wx:key="cols{{colIndex}}" wx:for-index="colIndex" wx:for="{{row}}" wx:for-item="col" bindtap='{{modelDataSource[rowIndex][colIndex]==0?"bindPopup":null}}'
+      data-rowIndex="{{rowIndex}}" data-colIndex="{{colIndex}}">
       <text>{{col}}</text>
     </view>
   </view>
   <view class='dashboard'>
     <button class='check'>检查</button>
-      <button class='reset'>重置</button>
-      <button class='rebuild'>重新开始</button>
+    <button class='reset'>重置</button>
+    <button class='rebuild'>重新开始</button>
   </view>
   <view class='popupNumbers {{showPopupNumber?"show":"hide"}}' style='left:{{left}};top:{{top}}' bindtap='selectNumber'>
     <view class='row'>
-      <text>1</text><text>2</text><text>3</text>
+      <text>1</text>
+      <text>2</text>
+      <text>3</text>
     </view>
     <view class='row'>
-      <text>4</text><text>5</text><text>6</text>
+      <text>4</text>
+      <text>5</text>
+      <text>6</text>
     </view>
     <view class='row'>
-      <text>7</text><text>8</text><text>9</text>
+      <text>7</text>
+      <text>8</text>
+      <text>9</text>
     </view>
     <view class='row'>
-      <text class='mark1' id='mark1'>0</text><text class='empty' id='empty'>0</text><text class='mark2' id='mark2'>0</text>
+      <text class='mark1' id='mark1'>0</text>
+      <text class='empty' id='empty'>0</text>
+      <text class='mark2' id='mark2'>0</text>
     </view>
   </view>
 </view>

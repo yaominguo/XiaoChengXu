@@ -5,10 +5,11 @@ let app = getApp()
 
 let handler = {
   data: {
-    left:0,
-    top:0,
-    showPopupNumber:false,
+    left: 0,
+    top: 0,
+    showPopupNumber: false,
     dataSource: '',
+    modelDataSource: '',
     rowGroupClasses: ['row_g_top', 'row_g_middle', 'row_g_bottom'],
     colGroupClasses: ['col_g_left', 'col_g_center', 'col_g_right']
   },
@@ -18,28 +19,29 @@ let handler = {
     //   .map(row => Toolkit.matrixToolkit.shuffle(row));
     console.log(matrix);
     this.setData({
-      dataSource: matrix
+      dataSource: matrix,
+      modelDataSource: matrix
     })
   },
-  bindPopup(e){
-    console.log(e);
-    let data="dataSource["+0+"]["+0+"]";
+  bindPopup(e) {
+    let rowIndex = e.currentTarget.dataset.rowindex,
+      colIndex = e.currentTarget.dataset.colindex;
+
+    let left = e.target.offsetLeft, top = e.target.offsetTop;
     this.setData({
-      [data]:6
+      top: top + 'px',
+      left: left + 'px',
+      showPopupNumber: true,
+      rowIndex: rowIndex,
+      colIndex: colIndex
     })
-    // console.log(e);
-    // e.target.dataset.item='6';
-    // let left=e.target.offsetLeft,top=e.target.offsetTop;
-    // this.setData({
-    //   top:top+'px',
-    //   left:left+'px',
-    //   showPopupNumber:true
-    // })
   },
-  selectNumber(e){
+  selectNumber(e) {
     console.log(e);
-    let id=e.target.id;
+    let id = e.target.id;
     console.log(id);
+    let data = this.data.dataSource;
+    data[this.data.rowIndex][this.data.colIndex] = 11;
   }
 }
 

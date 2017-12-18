@@ -41,11 +41,16 @@
 }
 
 .empty{
-  color:#fff;
   background-color: #fff;
 }
 .fixed{
   background-color: #eee;
+}
+.white{
+  color:#fff;
+}
+.black{
+  color:#000;
 }
 .mark1{
   background-color:lightgreen; 
