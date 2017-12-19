@@ -11,6 +11,7 @@ let handler = {
     showPopupNumber: false,
     dataSource: '',
     modelDataSource: '',
+    errDataSource: [],
     rowGroupClasses: ['row_g_top', 'row_g_middle', 'row_g_bottom'],
     colGroupClasses: ['col_g_left', 'col_g_center', 'col_g_right']
   },
@@ -22,7 +23,8 @@ let handler = {
     console.log(matrix);
     this.setData({
       dataSource: matrix,
-      modelDataSource: matrix
+      modelDataSource: matrix,
+      errDataSource: matrix
     })
   },
   bindPopup(e) {
@@ -47,43 +49,41 @@ let handler = {
       showPopupNumber: false
     })
   },
+
+  getMatrixMarks() {
+    Checker.check(this.data.dataSource);
+    return Checker._matrixMarks;
+  },
   check() {
-    // const $rows = this._$container.children();
-    // const data = this.data.dataSource.map((row, rowIndex) => {
-    //   return row.map((col, colIndex) => {
-    //     console.log('value:',col);
-    //     return parseInt(col) || 0;
-    //   })
-    // }).toArray().map($data => $data.toArray());
-    const checkResult = Checker.check(this.data.dataSource);
+    Checker.reset();
+    const marks = this.getMatrixMarks();
+    let checkResult = marks.every(row => row.every(mark => mark));
     if (checkResult) {
       return true;
-    }
-    //检查不成功，进行标记
-    const marks = Checker._matrixMarks;
-    console.log(marks);
-    this.data.dataSource.map((row, rowIndex) => {
-      row.map((col, colIndex) => {
-        if (this.data.modelDataSource[rowIndex][colIndex] != 0 || marks[rowIndex][colIndex]) {
-          // $span.removeClass('error');
-          return;
-        } else {
-          // $span.addClass('error');
-          let data = this.data.dataSource;
-          data[rowIndex][colIndex] = 'error';
-          this.setData({
-            dataSource: data
-          })
-        }
+    } else {
+      //检查不成功，进行标记
+      this.data.dataSource.map((row, rowIndex) => {
+        row.map((col, colIndex) => {
+          if (this.data.modelDataSource[rowIndex][colIndex] == 0 && marks[rowIndex][colIndex] == false) {
+            let data = this.data.errDataSource;
+            data[rowIndex][colIndex] = 'error';
+            this.setData({
+              errDataSource: data
+            })
+          }
+        })
       })
-    })
+    }
+
   },
   reset() {
+    Checker.reset();
     this.setData({
       dataSource: this.data.modelDataSource
     })
   },
   rebuild() {
+    Checker.reset();
     this.buildGame();
   }
 }

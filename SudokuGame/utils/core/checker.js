@@ -1,39 +1,37 @@
 import Toolkit from './toolkit.js';
 //检查数独的解决方案
 let checker = {
-  _success: false,
   _matrixMarks: Toolkit.matrixToolkit.makeMatrix(true),
   check(matrix) {
     this.checkRows(matrix);
     this.checkCols(matrix);
     this.checkBoxes(matrix);
-
-    //检查是否成功
-    this._success = this._matrixMarks.map(row => row.map(mark => mark));
-    return this._success;
   },
 
+  //重置检查方案
+  reset() {
+    this._matrixMarks = Toolkit.matrixToolkit.makeMatrix(true);
+  },
   checkArray(array) {
     const length = array.length;
     const marks = new Array(length);
     marks.fill(true);
-
     for (let i = 0; i < length; i++) {
       if (!marks[i]) { //如果检查之前就已经为false的就不再检查了
         continue;
       }
       const v = array[i];
       //是否有效 0为无效 1-9有效
-
-      if (!v) {
+      if (v == 0) {
         marks[i] = false;
         continue;
       }
 
       //是否有重复 i+1 到 9 中是否和 i 位置的数据重复
       for (let j = i + 1; j < length; j++) {
-        if (v === array[j]) {
-          marks[i] = marks[j] = false;
+        if (v == array[j]) {
+          marks[i] = false;
+          marks[j] = false;
         }
       }
     }

@@ -1,8 +1,8 @@
 import Generator from './generator.js';
 
 let sudoku = {
-  puzzleMatrix:[],
-  solutionMatrix(){
+  puzzleMatrix: [],
+  solutionMatrix() {
     Generator.generate();
     return Generator.matrix;
   },

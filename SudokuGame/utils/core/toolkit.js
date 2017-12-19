@@ -20,7 +20,7 @@ let matrixToolkit = {
   checkFillable(matrix, n, rowIndex, colIndex) {
     const row = matrix[rowIndex];
     const column = this.makeRow().map((v, i) => matrix[i][colIndex]);
-    const boxIndex= boxToolkit.converToBoxIndex(rowIndex, colIndex).boxIndex;
+    const boxIndex = boxToolkit.converToBoxIndex(rowIndex, colIndex).boxIndex;
     const box = boxToolkit.getBoxCells(matrix, boxIndex);
     for (let i = 0; i < 9; i++) {
       if (row[i] === n || column[i] === n || box[i] === n) {

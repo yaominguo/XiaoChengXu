@@ -1,6 +1,7 @@
-.container{
+.container {
   padding: 100rpx 0;
 }
+
 .rows {
   display: flex;
   flex-direction: row;
@@ -40,44 +41,59 @@
   border-left: 1px solid #000;
 }
 
-.empty{
+.empty {
   background-color: #fff;
 }
-.fixed{
+
+.fixed {
   background-color: #eee;
 }
-.white{
-  color:#fff;
+
+.white {
+  color: #fff;
 }
-.black{
-  color:#000;
+
+.white.error {
+  background-color: lightpink;
+  color: lightpink;
 }
-.error{
-  background-color: red;
+
+.black {
+  color: #000;
 }
-.mark1{
-  background-color:lightgreen; 
+
+.black.error {
+  background-color: lightpink;
+}
+
+.mark1 {
+  background-color: lightgreen;
   color: lightgreen;
 }
-.mark2{
-  background-color: lightcoral;
-  color: lightcoral;
+
+.mark2 {
+  background-color: lightgoldenrodyellow;
+  color: lightgoldenrodyellow;
 }
-.dashboard{
+
+.dashboard {
   margin-top: 100rpx;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-.dashboard button{
-  background-color: #2EBF76;
+
+.dashboard button {
+  background-color: #2ebf76;
   color: #fff;
   font-size: 35rpx;
 }
-.dashboard button+button{
+
+.dashboard button+button {
   margin-left: 60rpx;
 }
-.popupNumbers{
+
+.popupNumbers {
   position: absolute;
   border: 1px solid #000;
   z-index: 10000;
@@ -85,13 +101,16 @@
   margin-top: 30rpx;
   margin-left: 30rpx;
 }
-.popupNumbers.show{
+
+.popupNumbers.show {
   display: block;
 }
-.popupNumbers.hide{
+
+.popupNumbers.hide {
   display: none;
 }
-.popupNumbers text{
+
+.popupNumbers text {
   width: 75rpx;
   height: 75rpx;
   display: inline-block;
