@@ -32,9 +32,10 @@ let handler = {
       colIndex = e.currentTarget.dataset.colindex;
 
     let left = e.target.offsetLeft, top = e.target.offsetTop;
+    console.log(e.target);
     this.setData({
-      top: top + 'px',
-      left: left + 'px',
+      top: top>=200?top-140+'px':top + 'px',
+      left: left >= 200 ? left - 110 + 'px':left+'px',
       showPopupNumber: true,
       rowIndex: rowIndex,
       colIndex: colIndex

@@ -118,3 +118,10 @@
   line-height: 75rpx;
   border: 1px solid #000;
 }
+/* 如果要底部为3个按钮则去掉下面这行样式 */
+.popupNumbers .white{
+  width: 98%;
+  color: black;
+  background-color: lightgoldenrodyellow;
+}
+
