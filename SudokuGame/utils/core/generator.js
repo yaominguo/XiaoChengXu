@@ -2,15 +2,15 @@ import Toolkit from './toolkit.js';
 
 let generator = {
   matrix: [],
-  orders:[],
+  orders: [],
   generate() {
     while (!this.internalGenerate()) {
       console.log('try again');
     }
-    
+
   },
   internalGenerate() {
-    let self=this;
+    let self = this;
     this.matrix = Toolkit.matrixToolkit.makeMatrix();
     this.orders = Toolkit.matrixToolkit.makeMatrix()
       .map(row => row.map((v, i) => i))
@@ -26,7 +26,7 @@ let generator = {
     return this.fillRow(n, 0);
   },
   fillRow(n, rowIndex) {
-    let self=this;
+    let self = this;
     if (rowIndex > 8) {
       return true;
     }

@@ -52,6 +52,9 @@
 .black{
   color:#000;
 }
+.error{
+  background-color: red;
+}
 .mark1{
   background-color:lightgreen; 
   color: lightgreen;
