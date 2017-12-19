@@ -56,23 +56,27 @@ let handler = {
     return Checker._matrixMarks;
   },
   check() {
+    this.hidePopupNumBorad();
+    this.setData({
+      errDataSource: this.data.dataSource
+    })
     Checker.reset();
     const marks = this.getMatrixMarks();
     let checkResult = marks.every(row => row.every(mark => mark));
     if (checkResult) {
-      wx.showToast({
-        title: '恭喜完成！',
-        icon: 'success',
-        duration: 2000,
-        mask: true
+      let self = this;
+      wx.showModal({
+        title: '恭喜你！完成了！',
+        content: '再来一局吗？',
+        success: function (res) {
+          if (res.confirm) {
+            self.rebuild();
+          } else {
+            return;
+          }
+        }
       })
     } else {
-      wx.showToast({
-        title: '再检查一下吧~',
-        icon: 'loading',
-        duration: 2000,
-        mask: true
-      })
       //检查不成功，进行标记
       this.data.dataSource.map((row, rowIndex) => {
         row.map((col, colIndex) => {
@@ -85,18 +89,53 @@ let handler = {
           }
         })
       })
+      wx.showToast({
+        title: '再检查一下吧~',
+        icon: 'loading',
+        duration: 2000,
+        mask: true
+      })
     }
 
   },
   reset() {
-    Checker.reset();
-    this.setData({
-      dataSource: this.data.modelDataSource
+    this.hidePopupNumBorad();
+    let self = this;
+    wx.showModal({
+      title: '提示',
+      content: '确定重置游戏吗？',
+      success: function (res) {
+        if (res.confirm) {
+          Checker.reset();
+          self.setData({
+            dataSource: self.data.modelDataSource
+          })
+        } else {
+          return;
+        }
+      }
     })
   },
   rebuild() {
-    Checker.reset();
-    this.buildGame();
+    let self = this;
+    this.hidePopupNumBorad();
+    wx.showModal({
+      title: '提示',
+      content: '确定重新开始游戏吗？',
+      success: function (res) {
+        if (res.confirm) {
+          Checker.reset();
+          self.buildGame();
+        } else {
+          return;
+        }
+      }
+    })
+  },
+  hidePopupNumBorad() {
+    this.setData({
+      showPopupNumber: false
+    })
   }
 }
 
