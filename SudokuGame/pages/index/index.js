@@ -34,8 +34,8 @@ let handler = {
     let left = e.target.offsetLeft, top = e.target.offsetTop;
     console.log(e.target);
     this.setData({
-      top: top>=200?top-140+'px':top + 'px',
-      left: left >= 200 ? left - 110 + 'px':left+'px',
+      top: top >= 200 ? top - 140 + 'px' : top + 'px',
+      left: left >= 200 ? left - 110 + 'px' : left + 'px',
       showPopupNumber: true,
       rowIndex: rowIndex,
       colIndex: colIndex
@@ -60,8 +60,19 @@ let handler = {
     const marks = this.getMatrixMarks();
     let checkResult = marks.every(row => row.every(mark => mark));
     if (checkResult) {
-      return true;
+      wx.showToast({
+        title: '恭喜完成！',
+        icon: 'success',
+        duration: 2000,
+        mask: true
+      })
     } else {
+      wx.showToast({
+        title: '再检查一下吧~',
+        icon: 'loading',
+        duration: 2000,
+        mask: true
+      })
       //检查不成功，进行标记
       this.data.dataSource.map((row, rowIndex) => {
         row.map((col, colIndex) => {
