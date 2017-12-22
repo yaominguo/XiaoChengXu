@@ -9,9 +9,9 @@ let handler = {
     left: 0,
     top: 0,
     showPopupNumber: false,
-    dataSource: '',
-    modelDataSource: '',
-    errDataSource: [],
+    dataSource: '',//用来作为生成的源数据
+    modelDataSource: '',//用来判断是fixed还是空白格
+    errDataSource: [],//用来判断哪些格子是填错的背景样式要变成红色
     rowGroupClasses: ['row_g_top', 'row_g_middle', 'row_g_bottom'],
     colGroupClasses: ['col_g_left', 'col_g_center', 'col_g_right']
   },
@@ -20,18 +20,18 @@ let handler = {
   },
   buildGame() {
     let matrix = Grid.build();
-    console.log(matrix);
     this.setData({
       dataSource: matrix,
       modelDataSource: matrix,
       errDataSource: matrix
     })
   },
+  // 弹出数字操作盘
   bindPopup(e) {
     let rowIndex = e.currentTarget.dataset.rowindex,
       colIndex = e.currentTarget.dataset.colindex;
 
-    let left = e.target.offsetLeft, top = e.target.offsetTop;
+    let left = e.target.offsetLeft, top = e.target.offsetTop;//数字操作盘的方位
     console.log(e.target);
     this.setData({
       top: top >= 200 ? top - 140 + 'px' : top + 'px',
@@ -41,6 +41,7 @@ let handler = {
       colIndex: colIndex
     })
   },
+  // 点击选择数字
   selectNumber(e) {
     let number = e.target.dataset.number;
     let data = this.data.dataSource;
@@ -50,20 +51,21 @@ let handler = {
       showPopupNumber: false
     })
   },
-
+  // 返回的是true和false构成的9*9数组
   getMatrixMarks() {
     Checker.check(this.data.dataSource);
     return Checker._matrixMarks;
   },
+  // 点击完成进行检查
   check() {
     this.hidePopupNumBorad();
     this.setData({
       errDataSource: this.data.dataSource
     })
-    Checker.reset();
+    Checker.reset();//重置检查器，否则会出错
     const marks = this.getMatrixMarks();
     let checkResult = marks.every(row => row.every(mark => mark));
-    if (checkResult) {
+    if (checkResult) { //如果都为true则成功
       let self = this;
       wx.showModal({
         title: '恭喜你！完成了！',
@@ -98,6 +100,7 @@ let handler = {
     }
 
   },
+
   reset() {
     this.hidePopupNumBorad();
     let self = this;

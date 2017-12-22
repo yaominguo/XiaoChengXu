@@ -1,4 +1,5 @@
 
+/*矩阵和数组相关工具*/
 let matrixToolkit = {
   makeRow(v = 0) {
     const array = new Array(9);
@@ -8,6 +9,8 @@ let matrixToolkit = {
   makeMatrix(v = 0) {
     return Array.from({ length: 9 }, () => this.makeRow(v));
   },
+
+  /*Fisher-Yates 洗牌法，对传入数组进行随机排序，最后返回排序后的数组*/
   shuffle(array) {
     const length = array.length;
     const endIndex = length - 2;
@@ -17,6 +20,8 @@ let matrixToolkit = {
     }
     return array;
   },
+
+  /*检查指定位置可以填写数字n*/
   checkFillable(matrix, n, rowIndex, colIndex) {
     const row = matrix[rowIndex];
     const column = this.makeRow().map((v, i) => matrix[i][colIndex]);
@@ -31,6 +36,7 @@ let matrixToolkit = {
   }
 };
 
+/*宫坐标系工具*/
 let boxToolkit = {
   getBoxCells(matrix, boxIndex) {
     const startRowIndex = Math.floor(boxIndex / 3) * 3;
