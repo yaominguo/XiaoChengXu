@@ -4,7 +4,7 @@ import Toolkit from './toolkit.js';
 //生成数独解决方案
 let generator = {
   matrix: [],
-  orders: [],
+  ord: [],
   generate() {
     while (!this.internalGenerate()) {
       // console.log('try again');

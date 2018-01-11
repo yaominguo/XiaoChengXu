@@ -13,10 +13,16 @@ let handler = {
     modelDataSource: '',//用来判断是fixed还是空白格
     errDataSource: [],//用来判断哪些格子是填错的背景样式要变成红色
     rowGroupClasses: ['row_g_top', 'row_g_middle', 'row_g_bottom'],
-    colGroupClasses: ['col_g_left', 'col_g_center', 'col_g_right']
+    colGroupClasses: ['col_g_left', 'col_g_center', 'col_g_right'],
+    showIndexMask: true
   },
   onLoad() {
     this.buildGame();
+  },
+  startSudoku() {
+    this.setData({
+      showIndexMask: false
+    });
   },
   buildGame() {
     let matrix = Grid.build();
@@ -106,7 +112,7 @@ let handler = {
     let self = this;
     wx.showModal({
       title: '提示',
-      content: '确定重置游戏吗？',
+      content: '确定重置吗？',
       success: function (res) {
         if (res.confirm) {
           Checker.reset();
@@ -124,7 +130,7 @@ let handler = {
     this.hidePopupNumBorad();
     wx.showModal({
       title: '提示',
-      content: '确定重新开始游戏吗？',
+      content: '确定重新开始吗？',
       success: function (res) {
         if (res.confirm) {
           Checker.reset();

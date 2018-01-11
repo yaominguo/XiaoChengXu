@@ -6,7 +6,7 @@
     </view>
   </view>
   <view class='dashboard'>
-    <button class='reset' bindtap='reset'>重置游戏</button>
+    <button class='reset' bindtap='reset'>重置</button>
     <button class='check' bindtap='check'>完成</button>
     <button class='rebuild' bindtap='rebuild'>重新开始</button>
   </view>
@@ -32,5 +32,14 @@
       <text class='white' id='empty' data-number="{{0}}">擦除/取消</text>
       <!-- <text class='mark2' id='mark2'>0</text> -->
     </view>
+  </view>
+  <view class='index-mask {{showIndexMask?"show":"hide"}}'>
+    <image src='./sudoku.png'></image>
+    <text>知道吗？</text>
+    <text>数独可以培养大脑的</text>
+    <text>专注力、观察力、</text>
+    <text>对数字的敏感性以及逻辑推理能力哦！</text>
+    <text>赶紧来体验一下吧！</text>
+    <button bindtap='startSudoku'>开启数独世界</button>
   </view>
 </view>
