@@ -4,6 +4,7 @@ import Checker from '../../utils/core/checker.js';
 //获取应用实例
 let app = getApp();
 
+let timer;
 let handler = {
   data: {
     left: 0,
@@ -14,23 +15,30 @@ let handler = {
     errDataSource: [],//用来判断哪些格子是填错的背景样式要变成红色
     rowGroupClasses: ['row_g_top', 'row_g_middle', 'row_g_bottom'],
     colGroupClasses: ['col_g_left', 'col_g_center', 'col_g_right'],
-    showIndexMask: true
+    showIndexMask: true,
+    point: '.',
+    seconds: 0,
+    clock: '000'
   },
-  onLoad() {
-    this.buildGame();
-  },
+  // onLoad() {
+  //   this.buildGame();
+  // },
   startSudoku() {
     this.setData({
       showIndexMask: false
     });
+    this.buildGame();
   },
   buildGame() {
     let matrix = Grid.build();
     this.setData({
       dataSource: matrix,
       modelDataSource: matrix,
-      errDataSource: matrix
-    })
+      errDataSource: matrix,
+      seconds: 0,
+    });
+    clearInterval(timer);
+    this.changePoint();
   },
   // 弹出数字操作盘
   bindPopup(e) {
@@ -117,13 +125,57 @@ let handler = {
         if (res.confirm) {
           Checker.reset();
           self.setData({
-            dataSource: self.data.modelDataSource
+            dataSource: self.data.modelDataSource,
+            seconds: 0,
           })
         } else {
           return;
         }
       }
     })
+  },
+  //计时器
+  changePoint() {
+    let self = this;
+    timer = setInterval(function () {
+      let seconds = self.data.seconds + 1;
+      let clock;
+      if (seconds < 10) {
+        clock = '00' + seconds;
+      } else if (seconds < 100) {
+        clock = '0' + seconds;
+      } else if (seconds >= 999) {
+        clearInterval(timer);
+        wx.showModal({
+          title: '提醒！',
+          content: '您花费了太多时间啦，不如重新开始一局吧？',
+          showCancel: false,
+          success: function (res) {
+            if (res.confirm) {
+              Checker.reset();
+              self.buildGame();
+            } else {
+              return;
+            }
+          }
+        })
+      } else {
+        clock = '' + seconds;
+      }
+      self.setData({
+        seconds: seconds,
+        clock: clock,
+      });
+      if (self.data.point === '...') {
+        self.setData({
+          point: '.'
+        });
+      } else {
+        self.setData({
+          point: self.data.point + '.'
+        });
+      }
+    }, 1000)
   },
   rebuild() {
     let self = this;

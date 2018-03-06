@@ -1,7 +1,23 @@
-.container {
-  padding: 100rpx 0;
+.clock {
+  margin: 30rpx 0;
+  text-align: center;
 }
-.index-mask{
+
+.timing {
+  display: inline-block;
+  width: 150rpx;
+  text-align: left;
+}
+
+.seconds {
+  color: #2ebf76;
+}
+
+.container {
+  padding: 0 0 30rpx;
+}
+
+.index-mask {
   background-color: #fff;
   position: fixed;
   top: 0;
@@ -10,29 +26,35 @@
   bottom: 0;
   z-index: 10000;
 }
-.index-mask.show{
+
+.index-mask.show {
   display: block;
 }
-.index-mask.hide{
+
+.index-mask.hide {
   display: none;
 }
-.index-mask image{
+
+.index-mask image {
   width: 500rpx;
   height: 500rpx;
   display: block;
   margin: 0 auto;
 }
-.index-mask text{
+
+.index-mask text {
   display: block;
   text-align: center;
 }
-.index-mask button{
+
+.index-mask button {
   background-color: #2ebf76;
   color: #fff;
   font-size: 35rpx;
   width: 80%;
-   margin-top: 100rpx; 
+  margin-top: 100rpx;
 }
+
 .rows {
   display: flex;
   flex-direction: row;

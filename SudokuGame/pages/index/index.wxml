@@ -1,3 +1,7 @@
+<view class='clock'>
+  <text class='timing'>计时中{{point}}</text>
+  <text> 已花费 <text class='seconds'>{{clock}}</text> 秒</text>
+</view>
 <view class='container'>
   <view class='rows {{rowGroupClasses[rowIndex%3]}}' wx:for-index="rowIndex" wx:key="rows{{rowIndex}}" wx:for="{{dataSource}}" wx:for-item="row">
     <view class='cols {{colGroupClasses[colIndex%3]}} {{modelDataSource[rowIndex][colIndex]==0?"empty":"fixed"}} {{col==0?"white":"black"}} {{errDataSource[rowIndex][colIndex]=="error"?"error":"no-error"}}' wx:key="cols{{colIndex}}" wx:for-index="colIndex"

@@ -9,7 +9,6 @@ let generator = {
     while (!this.internalGenerate()) {
       // console.log('try again');
     }
-
   },
   internalGenerate() {
     let self = this;
