@@ -83,7 +83,7 @@ let handler = {
       let self = this;
       wx.showModal({
         title: '恭喜你！完成了！',
-        content: '再来一局吗？',
+        content: '一共花了'+self.data.seconds+'秒，再来一局吗？',
         success: function (res) {
           if (res.confirm) {
             self.rebuild();
@@ -197,6 +197,37 @@ let handler = {
     this.setData({
       showPopupNumber: false
     })
+  },
+  //分享功能
+  onShareAppMessage: function (res) {
+    let self = this;
+    // if (res.from === 'button') {
+    //   // 来自页面内转发按钮
+    //   console.log(res.target)
+    // }
+    return {
+      title: '来挑战下SUDOKU数独吧！',
+      path: '/page/index/index.js',
+      success: function (res) {
+        // 转发成功
+        wx.showModal({
+          title: '分享成功！',
+          content: '再挑战一次吗？',
+          success: function (res) {
+            if (res.confirm) {
+              Checker.reset();
+              self.buildGame();
+            } else {
+              // return;
+            }
+          }
+        })
+      },
+      fail: function (err) {
+        // 转发失败
+        return;
+      }
+    }
   }
 }
 
