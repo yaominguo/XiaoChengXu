@@ -47,3 +47,4 @@
     <button bindtap='startSudoku'>开启数独世界</button>
   </view>
 </view>
+<view class='footer'> © Mr.Guo </view>
