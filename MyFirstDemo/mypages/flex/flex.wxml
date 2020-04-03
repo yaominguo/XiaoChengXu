@@ -1,8 +1,0 @@
-<view class='first-try'>
-  <text>横排实验</text>
-  <view class='flex-row'>
-    <view class='green'>1</view>
-    <view class='blue'>2</view>
-    <view class='red'>3</view>
-  </view>
-</view>
