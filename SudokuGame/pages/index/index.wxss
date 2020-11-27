@@ -3,6 +3,12 @@
   text-align: center;
 }
 
+.email {
+  color: #999;
+  font-size: 20rpx;
+  margin-top: 10rpx;
+}
+
 .timing {
   display: inline-block;
   width: 150rpx;
@@ -128,9 +134,14 @@
   background-color: lightgoldenrodyellow;
   color: lightgoldenrodyellow;
 }
-
+.ad-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
 .dashboard {
-  margin-top: 100rpx;
+  margin-top: 60rpx;
   display: flex;
   flex-direction: row;
   justify-content: space-around;

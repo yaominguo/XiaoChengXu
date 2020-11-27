@@ -13,6 +13,7 @@
     <button class='reset' bindtap='reset'>重置</button>
     <button class='check' bindtap='check'>完成</button>
     <button class='rebuild' bindtap='rebuild'>重新开始</button>
+    <button class='back' bindtap='back'>返回</button>
   </view>
   <view class='popupNumbers {{showPopupNumber?"show":"hide"}}' style='left:{{left}};top:{{top}};' bindtap='selectNumber'>
     <view class='row'>
@@ -37,6 +38,9 @@
       <!-- <text class='mark2' id='mark2'>0</text> -->
     </view>
   </view>
+  <view class="ad-wrapper">
+    <ad unit-id="adunit-74924eec2464ec65"></ad>
+  </view>
   <view class='index-mask {{showIndexMask?"show":"hide"}}'>
     <image src='./sudoku.png'></image>
     <text>知道吗？</text>
@@ -45,6 +49,10 @@
     <text>对数字的敏感性以及逻辑推理能力哦！</text>
     <text>赶紧来体验一下吧！</text>
     <button bindtap='startSudoku'>开启数独世界</button>
+    <text class="email">意见及建议  missgmy@yahoo.com</text>
+    <view class="ad-wrapper">
+      <ad unit-id="adunit-6c5f4365a38d6ad0" ad-type="grid" grid-opacity="0.8" grid-count="5" ad-theme="white"></ad>
+    </view>
   </view>
 </view>
 <view class='footer'> © Mr.Guo </view>

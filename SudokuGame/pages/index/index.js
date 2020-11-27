@@ -29,6 +29,23 @@ let handler = {
     });
     this.buildGame();
   },
+  back() {
+    let self = this;
+    wx.showModal({
+      title: '提示',
+      content: '返回会重置游戏，确定返回吗？',
+      success: function (res) {
+        if (res.confirm) {
+          Checker.reset();
+          self.setData({
+            showIndexMask: true
+          });
+        } else {
+          return;
+        }
+      }
+    })
+  },
   buildGame() {
     let matrix = Grid.build();
     this.setData({

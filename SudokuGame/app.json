@@ -7,5 +7,6 @@
     "navigationBarBackgroundColor": "#2EBF76",
     "navigationBarTitleText": "SUDOKU数独",
     "navigationBarTextStyle": "white"
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }
