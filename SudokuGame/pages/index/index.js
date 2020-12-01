@@ -49,9 +49,9 @@ let handler = {
   buildGame() {
     let matrix = Grid.build();
     this.setData({
-      dataSource: matrix,
-      modelDataSource: matrix,
-      errDataSource: matrix,
+      dataSource: JSON.parse(JSON.stringify(matrix)),
+      modelDataSource: JSON.parse(JSON.stringify(matrix)),
+      errDataSource: JSON.parse(JSON.stringify(matrix)),
       seconds: 0,
     });
     clearInterval(timer);
@@ -61,9 +61,7 @@ let handler = {
   bindPopup(e) {
     let rowIndex = e.currentTarget.dataset.rowindex,
       colIndex = e.currentTarget.dataset.colindex;
-
     let left = e.target.offsetLeft, top = e.target.offsetTop;//数字操作盘的方位
-    console.log(e.target);
     this.setData({
       top: top >= 200 ? top - 140 + 'px' : top + 'px',
       left: left >= 200 ? left - 110 + 'px' : left + 'px',
@@ -74,9 +72,15 @@ let handler = {
   },
   // 点击选择数字
   selectNumber(e) {
-    let number = e.target.dataset.number;
-    let data = this.data.dataSource;
-    data[this.data.rowIndex][this.data.colIndex] = number;
+    const {errDataSource, dataSource, rowIndex, colIndex} = this.data;
+    const data = JSON.parse(JSON.stringify(dataSource));
+    if (errDataSource.length > 0) {
+      this.setData({
+        errDataSource: [],
+      })
+    }
+    const {number} = e.target.dataset;
+    data[rowIndex][colIndex] = number;
     this.setData({
       dataSource: data,
       showPopupNumber: false
@@ -89,18 +93,16 @@ let handler = {
   },
   // 点击完成进行检查
   check() {
+    const {dataSource, modelDataSource} = this.data
     this.hidePopupNumBorad();
-    this.setData({
-      errDataSource: this.data.dataSource
-    })
     Checker.reset();//重置检查器，否则会出错
     const marks = this.getMatrixMarks();
     let checkResult = marks.every(row => row.every(mark => mark));
     if (checkResult) { //如果都为true则成功
       let self = this;
       wx.showModal({
-        title: '恭喜你！完成了！',
-        content: '一共花了'+self.data.seconds+'秒，再来一局吗？',
+        title: '恭喜你！太棒了！成功过关！',
+        content: '一共花了'+self.data.seconds+'秒，再来一局吗？（点击右上角按钮分享给小伙伴吧！）',
         success: function (res) {
           if (res.confirm) {
             self.rebuild();
@@ -111,10 +113,10 @@ let handler = {
       })
     } else {
       //检查不成功，进行标记
-      this.data.dataSource.map((row, rowIndex) => {
-        row.map((col, colIndex) => {
-          if (this.data.modelDataSource[rowIndex][colIndex] == 0 && marks[rowIndex][colIndex] == false) {
-            let data = this.data.errDataSource;
+      let data = JSON.parse(JSON.stringify(dataSource));
+      dataSource.forEach((row, rowIndex) => {
+        row.forEach((col, colIndex) => {
+          if (modelDataSource[rowIndex][colIndex] == 0 && marks[rowIndex][colIndex] == false) {
             data[rowIndex][colIndex] = 'error';
             this.setData({
               errDataSource: data
@@ -129,7 +131,7 @@ let handler = {
         mask: true
       })
     }
-
+    console.log(this.data.modelDataSource);
   },
 
   reset() {
@@ -140,9 +142,24 @@ let handler = {
       content: '确定重置吗？',
       success: function (res) {
         if (res.confirm) {
+          const {errDataSource, dataSource, modelDataSource} = self.data;
+          let data = [...dataSource];
+          if (errDataSource.length > 0) {
+            data.forEach((row, rowIndex) => {
+              row.forEach((col, colIndex) => {
+                if (data[rowIndex][colIndex] == 'error') {
+                  data[rowIndex][colIndex] = 0
+                }
+              })
+            })
+            self.setData({
+              errDataSource: [],
+            })
+          }
+          console.log(modelDataSource);
           Checker.reset();
           self.setData({
-            dataSource: self.data.modelDataSource,
+            dataSource: modelDataSource,
             seconds: 0,
           })
         } else {

@@ -1,6 +1,7 @@
 <view class='clock'>
   <text class='timing'>计时中{{point}}</text>
   <text> 已花费 <text class='seconds'>{{clock}}</text> 秒</text>
+  <button class="share-btn" open-type="share">分享给小伙伴</button>
 </view>
 <view class='container'>
   <view class='rows {{rowGroupClasses[rowIndex%3]}}' wx:for-index="rowIndex" wx:key="rows{{rowIndex}}" wx:for="{{dataSource}}" wx:for-item="row">
@@ -10,9 +11,9 @@
     </view>
   </view>
   <view class='dashboard'>
+    <button class='rebuild' bindtap='rebuild'>重新开始</button>
     <button class='reset' bindtap='reset'>重置</button>
     <button class='check' bindtap='check'>完成</button>
-    <button class='rebuild' bindtap='rebuild'>重新开始</button>
     <button class='back' bindtap='back'>返回</button>
   </view>
   <view class='popupNumbers {{showPopupNumber?"show":"hide"}}' style='left:{{left}};top:{{top}};' bindtap='selectNumber'>
@@ -43,11 +44,11 @@
   </view>
   <view class='index-mask {{showIndexMask?"show":"hide"}}'>
     <image src='./sudoku.png'></image>
-    <text>知道吗？</text>
-    <text>数独可以培养大脑的</text>
-    <text>专注力、观察力、</text>
-    <text>对数字的敏感性以及逻辑推理能力哦！</text>
-    <text>赶紧来体验一下吧！</text>
+    <text>知道吗？！</text>
+    <text>数独可以培养大脑的专注力、观察力</text>
+    <text>加强对数字的敏感性以及逻辑推理能力哦！</text>
+    <text>赶紧来挑战一下吧！</text>
+    <text class='tips'>在格子里填入1~9的数字 \n 每行、每列、每个九宫格中不能出现重复的数字</text>
     <button bindtap='startSudoku'>开启数独世界</button>
     <text class="email">意见及建议  missgmy@yahoo.com</text>
     <view class="ad-wrapper">
