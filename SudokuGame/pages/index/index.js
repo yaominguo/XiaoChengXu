@@ -3,7 +3,7 @@ import Toolkit from '../../utils/core/toolkit.js';
 import Checker from '../../utils/core/checker.js';
 //获取应用实例
 let app = getApp();
-
+let interstitialAd = null;
 let timer;
 let handler = {
   data: {
@@ -20,9 +20,17 @@ let handler = {
     seconds: 0,
     clock: '000'
   },
-  // onLoad() {
-  //   this.buildGame();
-  // },
+  onLoad() {
+    // this.buildGame();
+    if (wx.createInterstitialAd) {
+      interstitialAd = wx.createInterstitialAd({
+        adUnitId: 'adunit-73f326ae09d28a31'
+      })
+      interstitialAd.onLoad(() => {})
+      interstitialAd.onError((err) => {})
+      interstitialAd.onClose(() => {})
+    }
+  },
   startSudoku() {
     this.setData({
       showIndexMask: false
@@ -36,6 +44,11 @@ let handler = {
       content: '返回会重置游戏，确定返回吗？',
       success: function (res) {
         if (res.confirm) {
+          if (interstitialAd) {
+            interstitialAd.show().catch((err) => {
+              console.error(err)
+            })
+          }
           Checker.reset();
           self.setData({
             showIndexMask: true
@@ -219,6 +232,11 @@ let handler = {
       content: '确定重新开始吗？',
       success: function (res) {
         if (res.confirm) {
+          if (interstitialAd) {
+            interstitialAd.show().catch((err) => {
+              console.error(err)
+            })
+          }
           Checker.reset();
           self.buildGame();
         } else {
@@ -241,7 +259,7 @@ let handler = {
     // }
     return {
       title: '来挑战下SUDOKU数独吧！',
-      path: '/page/index/index.js',
+      path: '/pages/index/index',
       success: function (res) {
         // 转发成功
         wx.showModal({
