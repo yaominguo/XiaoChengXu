@@ -1,3 +1,4 @@
+<button class="to-red-btn" bindtap="toRed">玩累了？领个外卖红包吧，还有淘宝折扣券哦!</button>
 <view class='clock'>
   <text class='timing'>计时中{{point}}</text>
   <text> 已花费 <text class='seconds'>{{clock}}</text> 秒</text>

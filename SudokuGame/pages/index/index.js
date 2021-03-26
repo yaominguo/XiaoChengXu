@@ -31,6 +31,16 @@ let handler = {
       interstitialAd.onClose(() => {})
     }
   },
+  toRed() {
+    const config = {
+      appId: 'wx61827118b5a7cf5b',
+      path: 'pages/food/food',
+    }
+    wx.navigateToMiniProgram({
+      ...config,
+      success() {},
+    })
+  },
   startSudoku() {
     this.setData({
       showIndexMask: false

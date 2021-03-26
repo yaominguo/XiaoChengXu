@@ -1,5 +1,5 @@
 .clock {
-  margin: 30rpx 0;
+  margin: 10rpx 0;
   text-align: center;
 }
 
@@ -13,6 +13,20 @@
   margin-left: 80rpx;
   padding: 7rpx 15rpx;
 }
+
+.to-red-btn {
+  display: block;
+  width: 90%;
+  outline: none;
+  border: none;
+  font-size: 30rpx;
+  margin: 10rpx auto;
+  text-align: center;
+  color: #fff;
+  border-radius: 100rpx;
+  background: linear-gradient(to right, #ff6034, #ee0a24);
+}
+
 
 .email {
   color: #999;
@@ -28,10 +42,6 @@
 
 .seconds {
   color: #2ebf76;
-}
-
-.container {
-  padding: 0 0 30rpx;
 }
 
 .index-mask {
@@ -161,8 +171,9 @@
   justify-content: center;
 }
 .dashboard {
-  margin-top: 45rpx;
+  margin-top: 10rpx;
   display: flex;
+  width: 100%;
   flex-direction: row;
   justify-content: space-around;
 }
@@ -170,11 +181,8 @@
 .dashboard button {
   background-color: #2ebf76;
   color: #fff;
-  font-size: 35rpx;
-}
-
-.dashboard button+button {
-  margin-left: 60rpx;
+  font-size: 30rpx;
+  line-height: 2;
 }
 
 .popupNumbers {

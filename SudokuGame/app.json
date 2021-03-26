@@ -3,7 +3,7 @@
     "pages/index/index"
   ],
   "window": {
-    "backgroundTextStyle": "dark",
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#2EBF76",
     "navigationBarTitleText": "SUDOKU数独",
     "navigationBarTextStyle": "white"
