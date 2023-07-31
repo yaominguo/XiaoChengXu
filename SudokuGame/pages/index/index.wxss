@@ -14,25 +14,13 @@
   padding: 7rpx 15rpx;
 }
 
-.to-red-btn {
-  display: block;
-  width: 90%;
-  outline: none;
-  border: none;
-  font-size: 30rpx;
-  margin: 10rpx auto;
-  text-align: center;
-  color: #fff;
-  border-radius: 100rpx;
-  background: linear-gradient(to right, #ff6034, #ee0a24);
-}
 
 
-.email {
+/* .email {
   color: #999;
   font-size: 20rpx;
   margin-top: 10rpx;
-}
+} */
 
 .timing {
   display: inline-block;
@@ -169,6 +157,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width:100%;
 }
 .dashboard {
   margin-top: 10rpx;

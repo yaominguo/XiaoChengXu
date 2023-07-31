@@ -1,54 +1,60 @@
-import Grid from '../../utils/ui/grid.js';
-import Toolkit from '../../utils/core/toolkit.js';
-import Checker from '../../utils/core/checker.js';
+import Grid from '../../utils/ui/grid.js'
+import Toolkit from '../../utils/core/toolkit.js'
+import Checker from '../../utils/core/checker.js'
 //获取应用实例
-let app = getApp();
-let interstitialAd = null;
-let timer;
+let app = getApp()
+let videoAd = null
+let interstitialAd = null
+let timer
 let handler = {
   data: {
     left: 0,
     top: 0,
     showPopupNumber: false,
-    dataSource: '',//用来作为生成的源数据
-    modelDataSource: '',//用来判断是fixed还是空白格
-    errDataSource: [],//用来判断哪些格子是填错的背景样式要变成红色
+    dataSource: '', //用来作为生成的源数据
+    modelDataSource: '', //用来判断是fixed还是空白格
+    errDataSource: [], //用来判断哪些格子是填错的背景样式要变成红色
     rowGroupClasses: ['row_g_top', 'row_g_middle', 'row_g_bottom'],
     colGroupClasses: ['col_g_left', 'col_g_center', 'col_g_right'],
     showIndexMask: true,
     point: '.',
     seconds: 0,
-    clock: '000'
+    clock: '000',
+    freeEmptyCounter: 0,
   },
   onLoad() {
     // this.buildGame();
     if (wx.createInterstitialAd) {
       interstitialAd = wx.createInterstitialAd({
-        adUnitId: 'adunit-73f326ae09d28a31'
+        adUnitId: 'adunit-73f326ae09d28a31',
       })
       interstitialAd.onLoad(() => {})
       interstitialAd.onError((err) => {})
       interstitialAd.onClose(() => {})
     }
-  },
-  toRed() {
-    const config = {
-      appId: 'wx61827118b5a7cf5b',
-      path: 'pages/food/food',
+    if (wx.createRewardedVideoAd) {
+      videoAd = wx.createRewardedVideoAd({
+        adUnitId: 'adunit-3695a69332689129',
+      })
+      videoAd.onLoad(() => {})
+      videoAd.onError((err) => {})
+      videoAd.onClose((res) => {
+        if (res?.isEnded === true) {
+          this.setData({
+            freeEmptyCounter: 5,
+          })
+        }
+      })
     }
-    wx.navigateToMiniProgram({
-      ...config,
-      success() {},
-    })
   },
   startSudoku() {
     this.setData({
-      showIndexMask: false
-    });
-    this.buildGame();
+      showIndexMask: false,
+    })
+    this.buildGame()
   },
   back() {
-    let self = this;
+    let self = this
     wx.showModal({
       title: '提示',
       content: '返回会重置游戏，确定返回吗？',
@@ -59,90 +65,112 @@ let handler = {
               console.error(err)
             })
           }
-          Checker.reset();
+          Checker.reset()
           self.setData({
-            showIndexMask: true
-          });
-        } else {
-          return;
+            showIndexMask: true,
+          })
         }
-      }
+      },
     })
   },
   buildGame() {
-    let matrix = Grid.build();
+    let matrix = Grid.build()
     this.setData({
       dataSource: JSON.parse(JSON.stringify(matrix)),
       modelDataSource: JSON.parse(JSON.stringify(matrix)),
       errDataSource: JSON.parse(JSON.stringify(matrix)),
       seconds: 0,
-    });
-    clearInterval(timer);
-    this.changePoint();
+      freeEmptyCounter: 5,
+    })
+    clearInterval(timer)
+    this.changePoint()
   },
   // 弹出数字操作盘
   bindPopup(e) {
     let rowIndex = e.currentTarget.dataset.rowindex,
-      colIndex = e.currentTarget.dataset.colindex;
-    let left = e.target.offsetLeft, top = e.target.offsetTop;//数字操作盘的方位
+      colIndex = e.currentTarget.dataset.colindex
+    let left = e.target.offsetLeft,
+      top = e.target.offsetTop //数字操作盘的方位
     this.setData({
       top: top >= 200 ? top - 140 + 'px' : top + 'px',
       left: left >= 200 ? left - 110 + 'px' : left + 'px',
       showPopupNumber: true,
       rowIndex: rowIndex,
-      colIndex: colIndex
+      colIndex: colIndex,
     })
   },
   // 点击选择数字
   selectNumber(e) {
-    const {errDataSource, dataSource, rowIndex, colIndex} = this.data;
-    const data = JSON.parse(JSON.stringify(dataSource));
+    const { errDataSource, dataSource, rowIndex, colIndex, freeEmptyCounter } = this.data
+    const data = JSON.parse(JSON.stringify(dataSource))
     if (errDataSource.length > 0) {
       this.setData({
         errDataSource: [],
       })
     }
-    const {number} = e.target.dataset;
-    data[rowIndex][colIndex] = number;
+    const { number } = e.target.dataset
+    if (e.target?.id === 'empty') {
+      if (freeEmptyCounter <= 0 && videoAd) {
+        videoAd.show().catch(() => {
+          // 失败重试
+          videoAd
+            .load()
+            .then(() => videoAd.show())
+            .catch((err) => {
+              console.log('激励视频 广告显示失败')
+            })
+        })
+        this.setData({
+          showPopupNumber: false,
+        })
+        return
+      } else {
+        this.setData({
+          freeEmptyCounter: freeEmptyCounter - 1,
+        })
+      }
+    }
+    data[rowIndex][colIndex] = number
     this.setData({
       dataSource: data,
-      showPopupNumber: false
+      showPopupNumber: false,
     })
   },
   // 返回的是true和false构成的9*9数组
   getMatrixMarks() {
-    Checker.check(this.data.dataSource);
-    return Checker._matrixMarks;
+    Checker.check(this.data.dataSource)
+    return Checker._matrixMarks
   },
   // 点击完成进行检查
   check() {
-    const {dataSource, modelDataSource} = this.data
-    this.hidePopupNumBorad();
-    Checker.reset();//重置检查器，否则会出错
-    const marks = this.getMatrixMarks();
-    let checkResult = marks.every(row => row.every(mark => mark));
-    if (checkResult) { //如果都为true则成功
-      let self = this;
+    const { dataSource, modelDataSource } = this.data
+    this.hidePopupNumBorad()
+    Checker.reset() //重置检查器，否则会出错
+    const marks = this.getMatrixMarks()
+    let checkResult = marks.every((row) => row.every((mark) => mark))
+    if (checkResult) {
+      //如果都为true则成功
+      let self = this
       wx.showModal({
         title: '恭喜你！太棒了！成功过关！',
-        content: '一共花了'+self.data.seconds+'秒，再来一局吗？（点击右上角按钮分享给小伙伴吧！）',
+        content: '一共花了' + self.data.seconds + '秒，再来一局吗？（点击右上角按钮分享给小伙伴吧！）',
         success: function (res) {
           if (res.confirm) {
-            self.rebuild();
+            self.rebuild()
           } else {
-            return;
+            return
           }
-        }
+        },
       })
     } else {
       //检查不成功，进行标记
-      let data = JSON.parse(JSON.stringify(dataSource));
+      let data = JSON.parse(JSON.stringify(dataSource))
       dataSource.forEach((row, rowIndex) => {
         row.forEach((col, colIndex) => {
           if (modelDataSource[rowIndex][colIndex] == 0 && marks[rowIndex][colIndex] == false) {
-            data[rowIndex][colIndex] = 'error';
+            data[rowIndex][colIndex] = 'error'
             this.setData({
-              errDataSource: data
+              errDataSource: data,
             })
           }
         })
@@ -151,22 +179,22 @@ let handler = {
         title: '再检查一下吧~',
         icon: 'loading',
         duration: 2000,
-        mask: true
+        mask: true,
       })
     }
-    console.log(this.data.modelDataSource);
+    console.log(this.data.modelDataSource)
   },
 
   reset() {
-    this.hidePopupNumBorad();
-    let self = this;
+    this.hidePopupNumBorad()
+    let self = this
     wx.showModal({
       title: '提示',
       content: '确定重置吗？',
       success: function (res) {
         if (res.confirm) {
-          const {errDataSource, dataSource, modelDataSource} = self.data;
-          let data = [...dataSource];
+          const { errDataSource, dataSource, modelDataSource } = self.data
+          let data = [...dataSource]
           if (errDataSource.length > 0) {
             data.forEach((row, rowIndex) => {
               row.forEach((col, colIndex) => {
@@ -179,64 +207,64 @@ let handler = {
               errDataSource: [],
             })
           }
-          console.log(modelDataSource);
-          Checker.reset();
+          console.log(modelDataSource)
+          Checker.reset()
           self.setData({
             dataSource: modelDataSource,
             seconds: 0,
           })
         } else {
-          return;
+          return
         }
-      }
+      },
     })
   },
   //计时器
   changePoint() {
-    let self = this;
+    let self = this
     timer = setInterval(function () {
-      let seconds = self.data.seconds + 1;
-      let clock;
+      let seconds = self.data.seconds + 1
+      let clock
       if (seconds < 10) {
-        clock = '00' + seconds;
+        clock = '00' + seconds
       } else if (seconds < 100) {
-        clock = '0' + seconds;
+        clock = '0' + seconds
       } else if (seconds >= 999) {
-        clearInterval(timer);
+        clearInterval(timer)
         wx.showModal({
           title: '提醒！',
           content: '您花费了太多时间啦，不如重新开始一局吧？',
           showCancel: false,
           success: function (res) {
             if (res.confirm) {
-              Checker.reset();
-              self.buildGame();
+              Checker.reset()
+              self.buildGame()
             } else {
-              return;
+              return
             }
-          }
+          },
         })
       } else {
-        clock = '' + seconds;
+        clock = '' + seconds
       }
       self.setData({
         seconds: seconds,
         clock: clock,
-      });
+      })
       if (self.data.point === '...') {
         self.setData({
-          point: '.'
-        });
+          point: '.',
+        })
       } else {
         self.setData({
-          point: self.data.point + '.'
-        });
+          point: self.data.point + '.',
+        })
       }
     }, 1000)
   },
   rebuild() {
-    let self = this;
-    this.hidePopupNumBorad();
+    let self = this
+    this.hidePopupNumBorad()
     wx.showModal({
       title: '提示',
       content: '确定重新开始吗？',
@@ -247,22 +275,22 @@ let handler = {
               console.error(err)
             })
           }
-          Checker.reset();
-          self.buildGame();
+          Checker.reset()
+          self.buildGame()
         } else {
-          return;
+          return
         }
-      }
+      },
     })
   },
   hidePopupNumBorad() {
     this.setData({
-      showPopupNumber: false
+      showPopupNumber: false,
     })
   },
   //分享功能
   onShareAppMessage: function (res) {
-    let self = this;
+    let self = this
     // if (res.from === 'button') {
     //   // 来自页面内转发按钮
     //   console.log(res.target)
@@ -277,20 +305,20 @@ let handler = {
           content: '再挑战一次吗？',
           success: function (res) {
             if (res.confirm) {
-              Checker.reset();
-              self.buildGame();
+              Checker.reset()
+              self.buildGame()
             } else {
               // return;
             }
-          }
+          },
         })
       },
       fail: function (err) {
         // 转发失败
-        return;
-      }
+        return
+      },
     }
-  }
+  },
 }
 
 Page(handler)
