@@ -19,9 +19,9 @@
         "uploadWithSourceMap": true,
         "compileHotReLoad": false,
         "lazyloadPlaceholderEnable": false,
-        "useMultiFrameRuntime": true,
-        "useApiHook": true,
-        "useApiHostProcess": true,
+        "useMultiFrameRuntime": false,
+        "useApiHook": false,
+        "useApiHostProcess": false,
         "babelSetting": {
             "ignore": [],
             "disablePlugins": [],
@@ -39,20 +39,18 @@
         "useCompilerPlugins": false
     },
     "compileType": "miniprogram",
-    "libVersion": "1.6.4",
+    "libVersion": "2.26.0",
     "appid": "wxb1c532672763087f",
     "projectname": "SudokuGame",
     "simulatorType": "wechat",
     "simulatorPluginLibVersion": {},
-    "condition": {
-        "search": {
-            "list": []
-        },
-        "conversation": {
-            "list": []
-        },
-        "miniprogram": {
-            "list": []
-        }
+    "condition": {},
+    "packOptions": {
+        "ignore": [],
+        "include": []
+    },
+    "editorSetting": {
+        "tabIndent": "insertSpaces",
+        "tabSize": 4
     }
 }
