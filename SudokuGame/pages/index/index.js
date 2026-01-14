@@ -1,6 +1,13 @@
 import Grid from '../../utils/ui/grid.js'
 import Toolkit from '../../utils/core/toolkit.js'
 import Checker from '../../utils/core/checker.js'
+import {
+    Confetti,
+	ConfettiEjector,
+	CanvasRender,
+	CustomShape
+} from 'confetti-ts-canvas';
+
 //获取应用实例
 let app = getApp()
 let videoAd = null
@@ -52,6 +59,65 @@ let handler = {
       showIndexMask: false,
     })
     this.buildGame()
+  },
+  doConfetti() {
+    const query = wx.createSelectorQuery();
+    // 1. 使用新 API 获取设备像素比 (DPR)
+    // 这是解决 Canvas 模糊的关键
+    const { pixelRatio } = wx.getWindowInfo(); 
+    query.select('#confettiCanvas')
+      .fields({ node: true, size: true })
+      .exec((res) => {
+        // 如果节点还没准备好，res[0] 可能是 null，做个保护
+        if (!res || !res[0]) return;
+
+        const canvas = res[0].node;
+        const ctx = canvas.getContext('2d');
+        
+        // res[0].width 是 CSS 逻辑宽度 (例如 iPhone 6 是 375px)
+        const width = res[0].width;
+        const height = res[0].height;
+
+        // 2. 设置物理像素尺寸 (高清适配)
+        // 必须将 canvas 的内部分辨率设置为 逻辑尺寸 * DPR
+        canvas.width = width * pixelRatio;
+        canvas.height = height * pixelRatio;
+        
+        // 3. 缩放绘图上下文
+        // 这样你在后续绘图时，依然可以使用逻辑坐标 (0-375)，系统会自动映射到高清像素上
+        ctx.scale(pixelRatio, pixelRatio);
+
+        // 4. 启动彩带
+        new Confetti({
+          paint: ctx, 
+          canvasWidth: width,  // 传入逻辑宽度
+          canvasHeight: height // 传入逻辑高度
+        }).run();
+        wx.vibrateShort({ type: 'medium' }); // 手机轻轻震动一下，模拟礼炮炸开的感觉
+      });
+      // const canvas= document.querySelector("#canvas");
+    // canvas.width = window.innerWidth;
+    // canvas.height = window.innerHeight;
+    // const g= canvas.getContext("2d");
+    
+    // new Confetti({
+    //      paint:g,
+    //      canvasWidth:canvas.width,
+    //      canvasHeight:canvas.height,
+    //   }).run();
+      
+    // const canvas= document.querySelector("canvas");
+    // const pao = new ConfettiEjector(canvas, {
+    //     limitAngle: [225, 315],//喷发角度区间[-∞,+∞]
+    //     count: 100,//喷发纸片数量
+    // });
+    // const boom = pao.create({
+    //     x: Math.random()*(this.canvasSize.width*.5),
+    //     y:Math.random()*(this.canvasSize.height*.5),//喷发位置
+    //     clampforce: [20, 60],//喷发力度
+    //     radius: 10,//纸片大小
+    // });
+    // pao.fire(boom);
   },
   back() {
     let self = this
@@ -151,17 +217,20 @@ let handler = {
     if (checkResult) {
       //如果都为true则成功
       let self = this
-      wx.showModal({
-        title: '恭喜你！太棒了！成功过关！',
-        content: '一共花了' + self.data.seconds + '秒，再来一局吗？（点击右上角按钮分享给小伙伴吧！）',
-        success: function (res) {
-          if (res.confirm) {
-            self.rebuild()
-          } else {
-            return
-          }
-        },
-      })
+      self.doConfetti()
+      setTimeout(() => {
+          wx.showModal({
+            title: '恭喜你！太棒了！成功过关！',
+            content: '一共花了' + self.data.seconds + '秒，再来一局吗？（点击右上角按钮分享给小伙伴吧！）',
+            success: function (res) {
+              if (res.confirm) {
+                self.rebuild()
+              } else {
+                return
+              }
+            },
+          })
+      }, 1500);
     } else {
       //检查不成功，进行标记
       let data = JSON.parse(JSON.stringify(dataSource))

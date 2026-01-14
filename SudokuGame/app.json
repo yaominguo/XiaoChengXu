@@ -8,5 +8,6 @@
     "navigationBarTitleText": "SUDOKU数独",
     "navigationBarTextStyle": "white"
   },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
 }

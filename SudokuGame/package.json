@@ -1,0 +1,15 @@
+{
+  "name": "sudokugame",
+  "version": "1.0.0",
+  "description": "> 数独可以培养大脑的专注力、观察力 > 加强对数字的敏感性和逻辑推理能力哦！",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "confetti-ts-canvas": "^1.1.5"
+  }
+}
